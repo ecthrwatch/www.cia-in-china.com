@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CIA in China</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #fff;
+            color: #111;
+            font-family: Georgia, 'Times New Roman', serif;
+            padding: 2rem;
+        }
+
+        main {
+            text-align: center;
+            max-width: 600px;
+        }
+
+        .grid-title {
+            display: inline-grid;
+            grid-template-columns: repeat(5, 1em);
+            grid-template-rows: 1em 0.4em 1em 0.4em 1em;
+            column-gap: 0.1em;
+            row-gap: 0;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            line-height: 1;
+        }
+
+        .grid-title span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        blockquote {
+            font-size: 1.3rem;
+            font-style: italic;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .verse {
+            font-size: 1rem;
+            font-style: normal;
+            color: #555;
+        }
+
+        footer {
+            position: fixed;
+            bottom: 2rem;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #999;
+            line-height: 1.8;
+        }
+
+        @media (max-width: 480px) {
+            .grid-title {
+                font-size: 2rem;
+            }
+
+            blockquote {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <div class="grid-title">
+            <!-- Row 1: C . I . A -->
+            <span>C</span><span></span><span>I</span><span></span><span>A</span>
+            <!-- Row 2: spacer -->
+            <span></span><span></span><span></span><span></span><span></span>
+            <!-- Row 3: . . I N . -->
+            <span></span><span></span><span>I</span><span>N</span><span></span>
+            <!-- Row 4: spacer -->
+            <span></span><span></span><span></span><span></span><span></span>
+            <!-- Row 5: C H I N A -->
+            <span>C</span><span>H</span><span>I</span><span>N</span><span>A</span>
+        </div>
+
+        <blockquote>
+            &ldquo;And you will know the truth, and the truth will set you free.&rdquo;
+        </blockquote>
+        <p class="verse">John 8:32</p>
+    </main>
+    <footer>
+        CIA-in-China.com<br>
+        &copy; Since April 1, 2026. All rights reserved.
+    </footer>
+</body>
+</html>
