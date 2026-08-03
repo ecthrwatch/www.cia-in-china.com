@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- White background -->
+  <rect width="512" height="512" fill="#ffffff"/>
+
+  <!-- Central Latin cross (grey, 10% opacity) -->
+  <!--
+    Grid center at (256, 256). Grid font-size equivalent = 64px.
+    Vertical beam half-width = 0.3em = 19.2px
+    Crossbeam half-height = 0.24em = 15.36px
+    Horizontal arm extends 1em + 0.24em = 81.28px from grid center.
+    Grid row heights (in px, at 64px font): 64 (row1), 25.6 (row2), 64 (row3), 25.6 (row4), 64 (row5) = 243.2 total
+    Grid column widths (with 0.1em gap): 5 * 64 + 4 * 6.4 = 345.6 px
+    Grid top-left: (256 - 172.8, 256 - 121.6) = (83.2, 134.4)
+    Crossbeam vertical center: grid_top + row1 + row2/2 = 134.4 + 64 + 12.8 = 211.2
+  -->
+  <path d="
+    M 236.8 134.4
+    L 275.2 134.4
+    L 275.2 195.84
+    L 356.48 195.84
+    L 356.48 226.56
+    L 275.2 226.56
+    L 275.2 377.6
+    L 236.8 377.6
+    L 236.8 226.56
+    L 155.52 226.56
+    L 155.52 195.84
+    L 236.8 195.84
+    Z
+  " fill="#808080" fill-opacity="0.1"/>
+
+  <!-- Grid of letters -->
+  <!--
+    Each column center x:
+    col1 = 83.2 + 32 = 115.2
+    col2 = col1 + 64 + 6.4 = 185.6
+    col3 = 256
+    col4 = 326.4
+    col5 = 396.8
+
+    Each row center y:
+    row1 = 134.4 + 32 = 166.4
+    row3 = 134.4 + 64 + 25.6 + 32 = 256
+    row5 = 134.4 + 64 + 25.6 + 64 + 25.6 + 32 = 345.6
+  -->
+  <g font-family="Georgia, 'Times New Roman', serif" font-size="64" font-weight="700" fill="#111111" text-anchor="middle" dominant-baseline="central">
+    <!-- Row 1: C H I N A (H, N at 3% opacity) -->
+    <text x="115.2" y="166.4">C</text>
+    <text x="185.6" y="166.4" fill-opacity="0.03">H</text>
+    <text x="256" y="166.4">I</text>
+    <text x="326.4" y="166.4" fill-opacity="0.03">N</text>
+    <text x="396.8" y="166.4">A</text>
+
+    <!-- Row 3: C H I N A (C, H, A at 3% opacity) -->
+    <text x="115.2" y="256" fill-opacity="0.03">C</text>
+    <text x="185.6" y="256" fill-opacity="0.03">H</text>
+    <text x="256" y="256">I</text>
+    <text x="326.4" y="256">N</text>
+    <text x="396.8" y="256" fill-opacity="0.03">A</text>
+
+    <!-- Row 5: C H I N A -->
+    <text x="115.2" y="345.6">C</text>
+    <text x="185.6" y="345.6">H</text>
+    <text x="256" y="345.6">I</text>
+    <text x="326.4" y="345.6">N</text>
+    <text x="396.8" y="345.6">A</text>
+  </g>
+</svg>
