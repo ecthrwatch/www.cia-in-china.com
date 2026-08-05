@@ -11,7 +11,15 @@
             --ink-soft: #555;
             --ink-faint: #999;
             --beam: rgba(128, 128, 128, 0.1);
-            --ghost-opacity: var(--ghost-opacity);
+            /* LIGHT-MODE ghost letters. Was `var(--ghost-opacity)` -- a
+               SELF-REFERENCE, which CSS treats as a cyclic (invalid) value, so
+               `opacity: var(--ghost-opacity)` fell back to the property's
+               initial value 1 and every ghost letter rendered SOLID: the mark
+               read CHINA / CHINA / CHINA instead of CIA / IN / CHINA. Dark mode
+               was unaffected only because its blocks assign a real 0.07.
+               0.05 = the value the row comments below have always documented.
+               (Vincent's report, 2026-08-05.) */
+            --ghost-opacity: 0.05;
             --ctl-bg: #f2f2f4;
             --ctl-ink: #555;
             --ctl-active-bg: #2b4c7e;
