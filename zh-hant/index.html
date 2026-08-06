@@ -193,56 +193,232 @@
             }
         }
 
-        /* ADDED for the multi-locale conversion: the language row in the
-           footer. The original page was English-only and had none. */
-        /* Theme control -- same three-state contract as the fleet nav
-           (light / dark / auto), styled down to this page's quiet register. */
-        .theme-row {
-            display: flex;
-            justify-content: center;
-            gap: 4px;
-            margin-bottom: 0.9rem;
+        /* ADDED 2026-08-06 (Vincent's E-d): the shared top-bar carrying the
+           theme toggle + language dropdown, moved here from the footer's old
+           theme-row/lang-row (both retired -- see the header comment). This
+           is @shared/components/Nav.astro rendered as-is (unmodified,
+           byte-identical to the copy vincentlecorre.org's "loveit-profile"
+           pages render via Base.astro) -- ONLY its CSS is hand-scoped here
+           instead of importing the fleet's shared global.css, because that
+           stylesheet's `html { font-family: Lora... }` + Tailwind preflight
+           would overwrite this page's own Georgia/--page-bg design. The rules
+           below are the subset of global.css's .nav*/.theme-toggle/
+           .lang-switcher/.lang-dropdown rules this page actually renders
+           (singlePage=true means Nav's own .nav-links <ul> is always empty --
+           same as the vincentlecorre.org bar), re-pointed at this page's own
+           tokens (--ink/--page-bg/--ctl-*) so both bars share one behaviour
+           while each keeps its own palette. */
+        .nav {
+            background-color: var(--page-bg);
+            border-bottom: 1px solid var(--ctl-border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
-        .theme-row button {
+        .nav-inner {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0.5rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .nav-row-1 {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            min-height: 2.75rem;
+            position: relative;
+        }
+
+        .nav-brand {
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: var(--ink);
+            text-decoration: none;
+            white-space: nowrap;
+            flex-shrink: 0;
+            margin-right: auto;
+            font-family: Georgia, 'Times New Roman', serif;
+        }
+
+        .nav-brand:hover {
+            color: var(--ink-soft);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 0.25rem;
+            flex-wrap: wrap;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-shrink: 0;
+        }
+
+        /* Hamburger -- singlePage means .nav-links is always empty (same as
+           the vincentlecorre.org bar's own behaviour), so this stays purely
+           structural: no menu ever opens under it. */
+        .nav-hamburger {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            flex-shrink: 0;
+            align-items: center;
+            gap: 0.4rem;
+            color: var(--ink);
             font: inherit;
+        }
+
+        .hamburger-label {
             font-size: 0.8rem;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .hamburger-icon {
+            display: inline-block;
+            flex-shrink: 0;
+        }
+
+        .nav-hamburger .bar {
+            display: block;
+            width: 18px;
+            height: 2px;
+            background-color: var(--ink-soft);
+            margin: 4px 0;
+        }
+
+        /* Theme toggle (ThemeToggle.astro, imported by Nav.astro) */
+        .theme-toggle {
+            display: flex;
+            background-color: var(--ctl-bg);
+            border-radius: 6px;
+            overflow: hidden;
+            border: none;
+            padding: 2px;
+            gap: 2px;
+        }
+
+        .theme-toggle button {
+            font: inherit;
+            font-size: 0.75rem;
             line-height: 1;
-            padding: 4px 9px;
+            padding: 0.3rem 0.5rem;
             cursor: pointer;
             color: var(--ctl-ink);
-            background: var(--ctl-bg);
-            border: 1px solid var(--ctl-border);
+            background: none;
+            border: none;
             border-radius: 4px;
         }
 
-        .theme-row button.active {
+        .theme-toggle button.active {
             background: var(--ctl-active-bg);
             color: var(--ctl-active-ink);
-            border-color: var(--ctl-active-bg);
         }
 
-        .lang-row {
-            margin-bottom: 0.6rem;
+        /* Language dropdown */
+        .lang-switcher {
+            position: relative;
         }
 
-        .lang-row a {
-            color: var(--ink-faint);
+        .lang-switcher-btn {
+            background: none;
+            border: 1px solid var(--ctl-border);
+            border-radius: 4px;
+            cursor: pointer;
+            padding: 0.3rem 0.6rem;
+            font: inherit;
+            font-size: 0.8rem;
+            color: var(--ink);
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .lang-switcher-btn::after {
+            content: "\25be";
+            font-size: 0.7rem;
+        }
+
+        .lang-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 4px;
+            background-color: var(--page-bg);
+            border: 1px solid var(--ctl-border);
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            min-width: 140px;
+            z-index: 200;
+            overflow: hidden;
+        }
+
+        .lang-dropdown.open {
+            display: block;
+        }
+
+        .lang-dropdown a {
+            display: block;
             text-decoration: none;
+            padding: 0.5rem 0.75rem;
+            font-size: 0.85rem;
+            color: var(--ink);
         }
 
-        .lang-row a:hover {
-            color: var(--ink-soft);
-            text-decoration: underline;
+        .lang-dropdown a:hover {
+            background-color: var(--ctl-bg);
         }
 
-        .lang-row .current {
-            color: var(--ink-soft);
+        .lang-dropdown a.current {
+            font-weight: 700;
         }
 
-        .lang-row .sep {
-            color: var(--ink-faint);
-            padding: 0 0.15rem;
+        @media (max-width: 768px) {
+            .nav-hamburger {
+                display: flex;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background-color: var(--page-bg);
+                border-bottom: 1px solid var(--ctl-border);
+                flex-direction: column;
+                padding: 0.5rem;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                z-index: 50;
+            }
+
+            .nav-links.open {
+                display: flex;
+            }
+
+            .nav-row-1 {
+                flex-wrap: wrap;
+                row-gap: 0.4rem;
+            }
+
+            .nav-controls {
+                flex-basis: 100%;
+                justify-content: space-between;
+                margin-left: 0;
+            }
         }
 
         /* ADDED for the multi-locale conversion: the AI-translation notice,
@@ -265,35 +441,68 @@
         .notice a {
             color: var(--ink-soft);
         }
-    </style></head> <body> <main> <div class="grid-title"> <!-- Row 1: C H I N A (H and N at 5% opacity) --> <span>C</span><span class="ghost">H</span><span>I</span><span class="ghost">N</span><span>A</span> <!-- Row 2: heart in center --> <span></span><span></span><span class="cross hidden">❤️‍🔥</span><span></span><span></span> <!-- Row 3: C H I N A (C, H, A at 5% opacity) --> <span class="ghost">C</span><span class="ghost">H</span><span>I</span><span>N</span><span class="ghost">A</span> <!-- Row 4: cross in center --> <span></span><span></span><span class="cross hidden">✝</span><span></span><span></span> <!-- Row 5: C H I N A --> <span>C</span><span>H</span><span>I</span><span>N</span><span>A</span> </div> <blockquote> 「你們必曉得真理，真理必叫你們得以自由。」 </blockquote> <p class="verse">約翰福音 8:32</p> <div class="notice"><p><em>本頁原以英文撰寫並發布。以上中文譯文僅供參考；如有出入，以英文原文為準。本譯文由人工智慧（Claude Code）自動翻譯，未經 Vincent Le Corre 人工校對，因此可能存在錯誤。</em> <strong><a href="https://www.cia-in-china.com/">點擊此處閱讀英文原文</a></strong></p>
+    </style></head> <body> <nav class="nav"> <div class="nav-inner">  <div class="nav-row-1"> <a href="/" class="nav-brand">CIA in China</a> <button class="nav-hamburger" type="button" aria-expanded="false" aria-label="Menu"> <span class="hamburger-label">Menu &rarr;</span> <span class="hamburger-icon"> <span class="bar"></span> <span class="bar"></span> <span class="bar"></span> </span> </button> <div class="nav-controls"> <div class="theme-toggle" role="group" aria-label="Theme"> <button type="button" data-theme-set="light">淺色</button> <button type="button" data-theme-set="dark">深色</button> <button type="button" data-theme-set="auto">自動</button> </div> <script>
+(function () {
+  function getSystemTheme() {
+    return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  }
+
+  function applyTheme(pref) {
+    var resolved = pref === "auto" ? getSystemTheme() : pref;
+    document.documentElement.setAttribute("data-theme", resolved);
+
+    document.querySelectorAll("[data-theme-set]").forEach(function (btn) {
+      btn.classList.toggle("active", btn.getAttribute("data-theme-set") === pref);
+    });
+  }
+
+  var stored = localStorage.getItem("theme") || "auto";
+  applyTheme(stored);
+
+  document.querySelectorAll("[data-theme-set]").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var pref = btn.getAttribute("data-theme-set");
+      localStorage.setItem("theme", pref);
+      applyTheme(pref);
+    });
+  });
+
+  window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function () {
+    if ((localStorage.getItem("theme") || "auto") === "auto") {
+      applyTheme("auto");
+    }
+  });
+})();
+</script> <div class="lang-switcher"> <button type="button" class="lang-switcher-btn" aria-expanded="false"> 繁體中文 </button> <div class="lang-dropdown"> <a href="/"> English </a><a href="/fr/"> Français </a><a href="/zh-hans/"> 简体中文 </a><a href="/zh-hant/" class="current"> 繁體中文 </a> </div> </div> </div> </div> <ul class="nav-links">  </ul> </div> </nav> <script>
+(function () {
+  // Hamburger toggle
+  var hamburger = document.querySelector(".nav-hamburger");
+  var navLinks = document.querySelector(".nav-links");
+  if (hamburger && navLinks) {
+    hamburger.addEventListener("click", function () {
+      var expanded = hamburger.getAttribute("aria-expanded") === "true";
+      hamburger.setAttribute("aria-expanded", String(!expanded));
+      navLinks.classList.toggle("open");
+    });
+  }
+
+  // Language switcher dropdown
+  var langBtn = document.querySelector(".lang-switcher-btn");
+  var langDropdown = document.querySelector(".lang-dropdown");
+  if (langBtn && langDropdown) {
+    langBtn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      var expanded = langBtn.getAttribute("aria-expanded") === "true";
+      langBtn.setAttribute("aria-expanded", String(!expanded));
+      langDropdown.classList.toggle("open");
+    });
+
+    document.addEventListener("click", function () {
+      langBtn.setAttribute("aria-expanded", "false");
+      langDropdown.classList.remove("open");
+    });
+  }
+})();
+</script> <main> <div class="grid-title"> <!-- Row 1: C H I N A (H and N at 5% opacity) --> <span>C</span><span class="ghost">H</span><span>I</span><span class="ghost">N</span><span>A</span> <!-- Row 2: heart in center --> <span></span><span></span><span class="cross hidden">❤️‍🔥</span><span></span><span></span> <!-- Row 3: C H I N A (C, H, A at 5% opacity) --> <span class="ghost">C</span><span class="ghost">H</span><span>I</span><span>N</span><span class="ghost">A</span> <!-- Row 4: cross in center --> <span></span><span></span><span class="cross hidden">✝</span><span></span><span></span> <!-- Row 5: C H I N A --> <span>C</span><span>H</span><span>I</span><span>N</span><span>A</span> </div> <blockquote> 「你們必曉得真理，真理必叫你們得以自由。」 </blockquote> <p class="verse">約翰福音 8:32</p> <div class="notice"><p><em>本頁原以英文撰寫並發布。以上中文譯文僅供參考；如有出入，以英文原文為準。本譯文由人工智慧（Claude Code）自動翻譯，未經 Vincent Le Corre 人工校對，因此可能存在錯誤。</em> <strong><a href="https://www.cia-in-china.com/">點擊此處閱讀英文原文</a></strong></p>
 <p><em>本站名稱「CIA in China」保留英文原名：「CIA」即美國中央情報局（Central Intelligence Agency），全名意為「中央情報局在中國」。</em></p>
-</div> </main> <footer> <div class="theme-row"> <button type="button" data-theme-set="light" title="Light">&#9788;</button> <button type="button" data-theme-set="dark" title="Dark">&#9789;</button> <button type="button" data-theme-set="auto" title="Auto">A</button> </div> <div class="lang-row"> <a href="https://www.cia-in-china.com/">English</a><span class="sep">·</span><a href="https://www.cia-in-china.com/fr/">Français</a><span class="sep">·</span><a href="https://www.cia-in-china.com/zh-hans/">简体中文</a><span class="sep">·</span><span class="current">繁體中文</span> </div> CIA-in-China.com<br> © 自 2026 年 4 月 1 日起。保留所有權利。 </footer> <script>
-    // Mirrors the fleet's ThemeToggle contract exactly: the choice is stored in
-    // localStorage under "theme" and expressed as data-theme on <html>, so a
-    // reader who set a preference on ecthrwatch.org meets the same behaviour
-    // here. "auto" follows the operating system and keeps following it.
-    (function () {
-      var root = document.documentElement;
-      function apply(pref) {
-        var resolved = pref === "auto"
-          ? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")
-          : pref;
-        root.setAttribute("data-theme", resolved);
-        document.querySelectorAll("[data-theme-set]").forEach(function (b) {
-          b.classList.toggle("active", b.getAttribute("data-theme-set") === pref);
-        });
-      }
-      var stored = localStorage.getItem("theme") || "auto";
-      apply(stored);
-      document.querySelectorAll("[data-theme-set]").forEach(function (b) {
-        b.addEventListener("click", function () {
-          var pref = b.getAttribute("data-theme-set");
-          localStorage.setItem("theme", pref);
-          apply(pref);
-        });
-      });
-      window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function () {
-        if ((localStorage.getItem("theme") || "auto") === "auto") apply("auto");
-      });
-    })();
-  </script> </body> </html>
+</div> </main> <footer> CIA-in-China.com<br> © 自 2026 年 4 月 1 日起。保留所有權利。 </footer> </body></html>
